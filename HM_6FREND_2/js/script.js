@@ -30,18 +30,18 @@ function promptGender(text) {
   return input;
 }
 function personCreator() {
-  const name = promptRequired("Укажите имя",);
-  const age = promptGreatThenEqual18("Укажите возраст (больше 18-ти)",);
-  const gender = promptGender("Укажите свой пол (male или female)",);
+  const name = promptRequired("Укажите имя");
+  const age = promptGreatThenEqual18("Укажите возраст (больше 18-ти)");
+  const gender = promptGender("Укажите свой пол (male или female)");
   return new Person(name, age, gender);
 }
 let infoPerson = personCreator();
 
 function Avto(brand, type, price) {
-  (this.brand = brand),
-    (this.type = type),
-    (this.price = price),
-    (this.user = infoPerson);
+  this.brand = brand,
+    this.type = type,
+    this.price = price,
+    this.user = infoPerson;
   this.getInfo = function () {
     console.log(
       `Бренд авто ${this.brand},Тип автомобиля ${this.type} Цена авто ${this.price} `
