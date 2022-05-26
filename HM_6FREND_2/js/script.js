@@ -1,10 +1,24 @@
-function Person(name, age, gender) {
+function Person(name) {
   this.name = name;
-  this.age = age;
-  this.gender = gender;
+  this.age = promptGreatThenEqual18();
+  this.gender = promptGender();
+  function promptGender() {
+    const input = prompt("Укажите свой пол (male или female)", "male");
+    if (input !== "male" && input !== "female") {
+      return promptGender();
+    }
+    return input;
+  }
   this.getInfo = function () {
     console.log(`Имя ${this.name},Возраст ${this.age} Пол ${this.gender}`);
   };
+  function promptGreatThenEqual18() {
+    const input = +prompt("Укажите возраст (больше 18-ти)", 22);
+    if (input < 18 || isNaN(input)) {
+      return promptGreatThenEqual18();
+    }
+    return input;
+  }
 }
 
 function promptRequired(text) {
@@ -14,34 +28,24 @@ function promptRequired(text) {
   }
   return input;
 }
-
-function promptGreatThenEqual18(text) {
-  const input = +prompt(text);
-  if (input < 18 || isNaN(input)) {
-    return promptGreatThenEqual18(text);
-  }
-  return input;
-}
-function promptGender(text) {
-  const input = prompt(text);
-  if (input !== "male" && input !== "female") {
-    return promptGender(text);
-  }
-  return input;
-}
 function personCreator() {
   const name = promptRequired("Укажите имя");
-  const age = promptGreatThenEqual18("Укажите возраст (больше 18-ти)");
-  const gender = promptGender("Укажите свой пол (male или female)");
-  return new Person(name, age, gender);
+  return new Person(name);
 }
-let infoPerson = personCreator();
 
-function Avto(brand, type, price) {
-  this.brand = brand,
-    this.type = type,
-    this.price = price,
-    this.user = infoPerson;
+function Avto(brand, type) {
+  this.brand = brand;
+  this.type = type;
+  this.price = promtPrice();
+  this.user = personCreator();
+
+  function promtPrice() {
+    const input = +prompt("Укажите цену", 1200);
+    if (input <= 0 || isNaN(input)) {
+      return promtPrice();
+    }
+    return input;
+  }
   this.getInfo = function () {
     console.log(
       `Бренд авто ${this.brand},Тип автомобиля ${this.type} Цена авто ${this.price} `
@@ -51,17 +55,11 @@ function Avto(brand, type, price) {
     );
   };
 }
-function promtPrice(price) {
-  const input = +prompt(price, 1200);
-  if (input <= 0 || isNaN(input)) {
-    return promtPrice(price);
-  }
-  return input;
-}
+
 function priceCreator() {
   const brand = promptRequired("Укажите марку авто");
   const type = promptRequired("Укажите тип автомобиля");
-  const price = promtPrice("Укажите цену");
-  return new Avto(brand, type, price);
+  return new Avto(brand, type);
 }
 let infoCar = priceCreator();
+let infoPerson = Object.assign({}, infoCar.user);
