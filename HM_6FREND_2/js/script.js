@@ -32,12 +32,18 @@ function personCreator() {
   const name = promptRequired("Укажите имя");
   return new Person(name);
 }
+let infoPerson = personCreator();
 
-function Avto(brand, type) {
+function Avto(brand, type, user) {
   this.brand = brand;
   this.type = type;
   this.price = promtPrice();
-  this.user = personCreator();
+  this.user = setUser(infoPerson);
+
+  function setUser(infoPerson) {
+    this.user = `Имя ${infoPerson.name}, Возраст ${infoPerson.age}, Пол ${infoPerson.gender}`;
+    return this.user;
+  }
 
   function promtPrice() {
     const input = +prompt("Укажите цену", 1200);
@@ -50,9 +56,7 @@ function Avto(brand, type) {
     console.log(
       `Бренд авто ${this.brand},Тип автомобиля ${this.type} Цена авто ${this.price} `
     );
-    console.log(
-      `Информация о владельце: Имя ${this.user.name}; Возраст ${this.user.age}; Пол ${this.user.gender};`
-    );
+    console.log(`Информация о владельце: ${this.user}.`);
   };
 }
 
@@ -62,4 +66,3 @@ function priceCreator() {
   return new Avto(brand, type);
 }
 let infoCar = priceCreator();
-let infoPerson = Object.assign({}, infoCar.user);
