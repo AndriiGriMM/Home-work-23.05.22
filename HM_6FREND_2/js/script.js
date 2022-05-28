@@ -2,6 +2,9 @@ function Person(name) {
   this.name = name;
   this.age = promptGreatThenEqual18();
   this.gender = promptGender();
+  this.getInfo = function () {
+    console.log(`Имя ${this.name},Возраст ${this.age} Пол ${this.gender}`);
+  };
   function promptGender() {
     const input = prompt("Укажите свой пол (male или female)", "male");
     if (input !== "male" && input !== "female") {
@@ -9,9 +12,6 @@ function Person(name) {
     }
     return input;
   }
-  this.getInfo = function () {
-    console.log(`Имя ${this.name},Возраст ${this.age} Пол ${this.gender}`);
-  };
   function promptGreatThenEqual18() {
     const input = +prompt("Укажите возраст (больше 18-ти)", 22);
     if (input < 18 || isNaN(input)) {
@@ -34,17 +34,22 @@ function personCreator() {
 }
 let infoPerson = personCreator();
 
-function Avto(brand, type, user) {
+function Avto(brand, type) {
   this.brand = brand;
   this.type = type;
   this.price = promtPrice();
-  this.user = setUser(infoPerson);
-
-  function setUser(infoPerson) {
-    this.user = `Имя ${infoPerson.name}, Возраст ${infoPerson.age}, Пол ${infoPerson.gender}`;
-    return this.user;
-  }
-
+  this.user = undefined;
+  this.setUser = function (userObject) {
+    this.user = userObject;
+  };
+  this.getInfo = function () {
+    console.log(
+      `Бренд авто ${this.brand},Тип автомобиля ${this.type} Цена авто ${this.price} `
+    );
+    console.log(
+      `Информация о владельце: Имя: ${this.user.name}; Позраст:  ${this.user.age}; Пол:  ${this.user.gender};`
+    );
+  };
   function promtPrice() {
     const input = +prompt("Укажите цену", 1200);
     if (input <= 0 || isNaN(input)) {
@@ -52,17 +57,12 @@ function Avto(brand, type, user) {
     }
     return input;
   }
-  this.getInfo = function () {
-    console.log(
-      `Бренд авто ${this.brand},Тип автомобиля ${this.type} Цена авто ${this.price} `
-    );
-    console.log(`Информация о владельце: ${this.user}.`);
-  };
 }
 
-function priceCreator() {
+function avtoCreator() {
   const brand = promptRequired("Укажите марку авто");
   const type = promptRequired("Укажите тип автомобиля");
   return new Avto(brand, type);
 }
-let infoCar = priceCreator();
+let infoCar = avtoCreator();
+infoCar.setUser(infoPerson);
